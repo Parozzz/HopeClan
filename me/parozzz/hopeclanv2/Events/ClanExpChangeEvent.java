@@ -19,7 +19,7 @@ public class ClanExpChangeEvent extends Event implements Cancellable
 {
     public enum ExpChangeCause
     {
-        MOB, BLOCK;
+        MOB, BLOCK, BREW, ENEMYKILL;
     }
     
     private final HPlayer hp;

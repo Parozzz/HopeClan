@@ -49,7 +49,7 @@ public class HopeClan extends JavaPlugin
         FileConfiguration c=Utils.fileStartup(this, new File(this.getDataFolder(), "config.yml"));
         initializeStatics(c);
         
-        PlayerHandler playerHandler=new PlayerHandler(c);
+        PlayerHandler playerHandler=new PlayerHandler();
         ClanHandler clanHandler=new ClanHandler();
         
         registerListeners(playerHandler, clanHandler);
@@ -63,6 +63,7 @@ public class HopeClan extends JavaPlugin
     private void initializeStatics(final FileConfiguration c)
     {
         Message.init(c);
+        ExpManager.init(c);
     }
     
     private void unregisterAll()

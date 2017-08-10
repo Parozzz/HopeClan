@@ -11,16 +11,18 @@ Message:
   claimChunk: '&7You have claimed this chunk'
   
 Experience:
+  enemyKill: 2.5 #When a clan member kill a member of an enemy clan
+  potionBrew: 0.25 #When a potion is brewed in a clan claim
+  
   silkTouch: false #Can the player have silk touch when mining the block?
-  block:
+  block: #When a clan member mine a block
     coal_ore: 0.15
-    iron_ore: 0.5
     quartz_ore: 0.65
     glowing_redstone_ore: 0.75
-    gold_ore: 0.85
     lapis_ore: 1.15
     emerald_ore: 15
-  mob:
+    
+  mob: #When a clan member kill a mob
     BAT: 0.1
     PIG: 0.2
     OCELOT: 0.25

@@ -12,11 +12,14 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import me.parozzz.hopeclanv2.Clans.Claim.BuildPermission.BuildType;
 import me.parozzz.hopeclanv2.Clans.Claim.ClaimManager;
+import me.parozzz.hopeclanv2.Clans.HClan;
+import me.parozzz.hopeclanv2.Clans.HClan.Relation;
 import me.parozzz.hopeclanv2.Events.ClanExpChangeEvent;
 import me.parozzz.hopeclanv2.Events.ClanExpChangeEvent.ExpChangeCause;
 import me.parozzz.hopeclanv2.Events.PlayerHitClanMemberEvent;
 import me.parozzz.hopeclanv2.Events.PlayerInteractInClaimEvent;
 import me.parozzz.hopeclanv2.Events.PlayerStepIntoClaimEvent;
+import me.parozzz.hopeclanv2.ExpManager;
 import me.parozzz.hopeclanv2.Utils;
 import me.parozzz.hopeclanv2.Utils.CreatureType;
 import org.bukkit.Material;
@@ -33,6 +36,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -48,22 +52,8 @@ import org.bukkit.material.Openable;
  */
 public class PlayerHandler implements Listener
 {
-    private final EnumMap<CreatureType, Double> mobExp;
-    private final EnumMap<Material, Double> blockExp;
-    private final Predicate<ItemStack> silkTouch;
-    public PlayerHandler(final FileConfiguration c)
+    public PlayerHandler()
     {
-        mobExp=new EnumMap(CreatureType.class);
-        blockExp=new EnumMap(Material.class);
-        
-        ConfigurationSection expPath=c.getConfigurationSection("Experience");
-        silkTouch= expPath.getBoolean("silkTouch") ? tool -> true : tool -> !tool.containsEnchantment(Enchantment.SILK_TOUCH);
-        
-        ConfigurationSection mPath=expPath.getConfigurationSection("mob");
-        mobExp.putAll(mPath.getKeys(false).stream().collect(Collectors.toMap(str -> CreatureType.valueOf(str.toUpperCase()), str -> mPath.getDouble(str))));
-        
-        ConfigurationSection bPath=expPath.getConfigurationSection("block");
-        blockExp.putAll(bPath.getKeys(false).stream().collect(Collectors.toMap(str -> Material.valueOf(str.toUpperCase()), str -> bPath.getDouble(str))));
     }
     
     @EventHandler(ignoreCancelled=true)
@@ -160,9 +150,21 @@ public class PlayerHandler implements Listener
     }
     
     @EventHandler(ignoreCancelled=true, priority=EventPriority.MONITOR)
+    private void onPlayerDeath(final PlayerDeathEvent e)
+    {
+        Optional.ofNullable(e.getEntity().getKiller()).map(PlayerManager::playerGet).ifPresent(killer -> 
+        {
+            HPlayer hp=PlayerManager.playerGet(e.getEntity());
+            Optional.ofNullable(killer.clanGet())
+                    .filter(clan -> clan.relationGet(hp.clanGet())==Relation.ENEMY)
+                    .ifPresent(clan -> Utils.callEvent(new ClanExpChangeEvent(killer, clan, ExpManager.getEnemyKillExp(), ExpChangeCause.ENEMYKILL)));
+        });
+    }
+    
+    @EventHandler(ignoreCancelled=true, priority=EventPriority.MONITOR)
     private void onPlayerKillMob(final EntityDeathEvent e)
     {
-        Optional.ofNullable(mobExp.get(CreatureType.getByLivingEntity(e.getEntity()))).ifPresent(exp -> 
+        Optional.ofNullable(ExpManager.getMobExp(CreatureType.getByLivingEntity(e.getEntity()))).ifPresent(exp -> 
         {
             Optional.ofNullable(e.getEntity().getKiller()).map(PlayerManager::playerGet).ifPresent(hp -> 
             {
@@ -174,10 +176,12 @@ public class PlayerHandler implements Listener
     @EventHandler(ignoreCancelled=true, priority=EventPriority.MONITOR)
     private void onPlayerMine(final BlockBreakEvent e)
     {
-        Optional.ofNullable(blockExp.get(e.getBlock().getType())).ifPresent(exp -> 
-        {
-            HPlayer hp=PlayerManager.playerGet(e.getPlayer());
-            Optional.ofNullable(hp.clanGet()).ifPresent(clan -> Utils.callEvent(new ClanExpChangeEvent(hp, clan, exp, ExpChangeCause.BLOCK)));
-        });
+        Optional.ofNullable(ExpManager.getBlockExp(e.getBlock().getType()))
+                .filter(exp -> ExpManager.checkSilkTouch(Utils.getMainHand(e.getPlayer().getEquipment())))
+                .ifPresent(exp -> 
+                {
+                    HPlayer hp=PlayerManager.playerGet(e.getPlayer());
+                    Optional.ofNullable(hp.clanGet()).ifPresent(clan -> Utils.callEvent(new ClanExpChangeEvent(hp, clan, exp, ExpChangeCause.BLOCK)));
+                });
     }
 }

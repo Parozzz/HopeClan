@@ -6,6 +6,7 @@
 package me.parozzz.hopeclanv2.Clans;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import me.parozzz.hopeclanv2.Clans.Claim.Claim;
 import me.parozzz.hopeclanv2.Clans.Claim.ClaimManager;
@@ -122,7 +123,8 @@ public class ClanHandler implements Listener
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
     private void onExpChange(final ClanExpChangeEvent e)
     {
-        e.getPlayerInvolved().sendActionBar(MessageEnum.CLANEXPGAIN.get().replace("%exp%", Objects.toString(e.getExpModifier())));
+        Optional.ofNullable(e.getPlayerInvolved())
+                .ifPresent(hp -> hp.sendActionBar(MessageEnum.CLANEXPGAIN.get().replace("%exp%", Objects.toString(e.getExpModifier()))));
         e.getClan().expAdd(e.getExpModifier());
     }
 }
