@@ -8,7 +8,7 @@ package me.parozzz.hopeclanv2.Players;
 import java.util.HashSet;
 import java.util.Set;
 import me.parozzz.hopeclanv2.Clans.HClan;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import me.parozzz.hopeclanv2.reflection.ActionBar;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 /**
@@ -59,5 +59,22 @@ public class HPlayer
     public boolean inviteRemove(final HClan clan)
     {
         return invites.remove(clan);
+    }
+    
+    
+    public void sendMessage(final String message)
+    {
+        if(op.isOnline())
+        {
+            op.getPlayer().sendMessage(message);
+        }
+    }
+    
+    public void sendActionBar(final String message)
+    {
+        if(op.isOnline())
+        {
+            ActionBar.send(op.getPlayer(), message);
+        }
     }
 }

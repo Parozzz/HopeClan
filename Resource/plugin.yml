@@ -1,5 +1,6 @@
 name: HopeClan
 version: 0.1
+author: Parozzz
 main: me.parozzz.hopeclanv2.HopeClan
 commands:
   clan:

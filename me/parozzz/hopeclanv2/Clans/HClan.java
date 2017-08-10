@@ -37,7 +37,7 @@ public class HClan
     
     public static enum Relation
     {
-        NEUTRAL, ALLIED, ENEMY;
+        NEUTRAL, ALLIED, ENEMY, OWN;
     }
     
     private volatile String tag;
@@ -98,17 +98,19 @@ public class HClan
     private final Map<HClan, Relation> relations;
     public void relationAdd(final HClan relative, final Relation rel)
     {
-        relations.put(relative, rel);
+        if(rel==Relation.NEUTRAL)
+        {
+            relations.remove(relative);
+        }
+        else
+        {
+            relations.put(relative, rel);
+        }
     }
     
     public Relation relationGet(final HClan relative)
     {
-        return Optional.ofNullable(relations.get(relative)).orElseGet(() -> Relation.NEUTRAL);
-    }
-    
-    public Relation relationRemove(final HClan relative)
-    {
-        return relations.remove(relative);
+        return relative.equals(this) ? Relation.OWN : Optional.ofNullable(relations.get(relative)).orElseGet(() -> Relation.NEUTRAL);
     }
     
     private final Map<String, Claim> claims;

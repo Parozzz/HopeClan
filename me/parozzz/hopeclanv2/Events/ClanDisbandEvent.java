@@ -6,6 +6,7 @@
 package me.parozzz.hopeclanv2.Events;
 
 import me.parozzz.hopeclanv2.Clans.HClan;
+import me.parozzz.hopeclanv2.Players.HPlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -17,15 +18,22 @@ import org.bukkit.event.HandlerList;
 public class ClanDisbandEvent extends Event implements Cancellable
 {
 
+    private final HPlayer clanOwner;
     private final HClan clan;
-    public ClanDisbandEvent(final HClan clan)
+    public ClanDisbandEvent(final HPlayer clanOwner, final HClan clan)
     {
         this.clan=clan;
+        this.clanOwner=clanOwner;
     }
     
     public HClan getClan()
     {
         return clan;
+    }
+    
+    public HPlayer getClanOwner()
+    {
+        return clanOwner;
     }
     
     private static final HandlerList handlers = new HandlerList();

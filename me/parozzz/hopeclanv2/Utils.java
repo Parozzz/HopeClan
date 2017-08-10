@@ -441,7 +441,10 @@ public final class Utils {
         { 
             p.sendTitle(title, subtitle); 
         }
-        else{ p.sendTitle(title, subtitle, fadein, stay, fadeout); }
+        else
+        {
+            p.sendTitle(title, subtitle, fadein, stay, fadeout); 
+        }
     }
 
     public static <T extends Event,Cancellable> T callEvent(final T event)

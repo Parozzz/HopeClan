@@ -1,2 +1,9 @@
-## YAML Template.
----
+Prefix: "&7[&4Clan&7]"
+Message:
+  hitAlly: '&2&lAlly hit'
+  interactionNotAllowed: '&7&lNot Allowed'
+  relationChanged: '&7Now %relative% is your %relation%'
+  clanCreate: '&4You have created a new clan'
+  clanDisband: '&4You have disbanded your clan'
+  claimEnterTitle: '&7Chunk claimed'
+  claimEnterSubtitle: '&7Claimer: %clan%'

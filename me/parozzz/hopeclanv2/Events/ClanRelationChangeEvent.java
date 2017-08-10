@@ -7,6 +7,7 @@ package me.parozzz.hopeclanv2.Events;
 
 import me.parozzz.hopeclanv2.Clans.HClan;
 import me.parozzz.hopeclanv2.Clans.HClan.Relation;
+import me.parozzz.hopeclanv2.Players.HPlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -17,19 +18,26 @@ import org.bukkit.event.HandlerList;
  */
 public class ClanRelationChangeEvent extends Event implements Cancellable
 {
+    private final HPlayer clanOwner;
     private final Relation relation;
     private final HClan relative;
     private final HClan clan;
-    public ClanRelationChangeEvent(final HClan clan, final HClan relative, final Relation relation)
+    public ClanRelationChangeEvent(final HPlayer clanOwner, final HClan clan, final HClan relative, final Relation relation)
     {
         this.relative=relative;
         this.relation=relation;
         this.clan=clan;
+        this.clanOwner=clanOwner;
     }
     
     public HClan getClan()
     {
         return clan;
+    }
+    
+    public HPlayer getClanOwner()
+    {
+        return clanOwner;
     }
     
     public HClan getRelative()

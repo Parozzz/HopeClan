@@ -5,10 +5,16 @@
  */
 package me.parozzz.hopeclanv2;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.stream.Stream;
 import me.parozzz.hopeclanv2.Clans.ClanHandler;
 import me.parozzz.hopeclanv2.Players.PlayerHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,12 +39,15 @@ public class HopeClan extends JavaPlugin
         unregisterAll();
     }
     
-    public void load(final boolean reload)
+    public void load(final boolean reload) throws UnsupportedEncodingException, IOException, FileNotFoundException, InvalidConfigurationException
     {
         if(reload)
         {
             unregisterAll();
         }
+        
+        FileConfiguration c=Utils.fileStartup(this, new File(this.getDataFolder(), "config.yml"));
+        initializeStatics(c);
         
         PlayerHandler playerHandler=new PlayerHandler();
         ClanHandler clanHandler=new ClanHandler();
@@ -49,6 +58,11 @@ public class HopeClan extends JavaPlugin
     private void registerListeners(final Listener... listeners)
     {
         Stream.of(listeners).forEach(l -> Bukkit.getServer().getPluginManager().registerEvents(l, this));
+    }
+    
+    private void initializeStatics(final FileConfiguration c)
+    {
+        Message.init(c);
     }
     
     private void unregisterAll()
