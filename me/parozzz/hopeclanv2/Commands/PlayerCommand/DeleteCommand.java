@@ -54,7 +54,7 @@ public class DeleteCommand implements PlayerCommand
             CommandMessageEnum.PLAYERNOTINCLAN.chat(hp, muted);
             return false;
         }
-        else if(hp.getClan().rankGet(hp)!=Rank.OWNER)
+        else if(hp.getClan().getRank(hp)!=Rank.OWNER)
         {
             CommandMessageEnum.COMMANDOWNERONLY.chat(hp, muted);
             return false;

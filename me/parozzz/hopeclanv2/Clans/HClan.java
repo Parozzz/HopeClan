@@ -65,39 +65,39 @@ public class HClan
     }
     
     private HPlayer owner;
-    public void ownerSet(final HPlayer hp)
+    public void setOwner(final HPlayer hp)
     {
         owner=hp;
     }
     
-    public HPlayer ownerGet()
+    public HPlayer getOwner()
     {
         return owner;
     }
     
     private final Map<HPlayer, Rank> members;
-    public void memberAdd(final HPlayer hp)
+    public void addMember(final HPlayer hp)
     {
         members.put(hp, Rank.MEMBER);
     }
     
-    public boolean memberRemove(final HPlayer hp)
+    public boolean removeMember(final HPlayer hp)
     {
         return hp.equals(owner) ? false : members.remove(hp)!=null;
     }
     
-    public boolean rankSet(final HPlayer hp, final Rank rank)
+    public boolean setRank(final HPlayer hp, final Rank rank)
     {
         return hp.equals(owner) ? false : members.replace(hp, rank)!=null;
     }
     
-    public Rank rankGet(final HPlayer hp)
+    public Rank getRank(final HPlayer hp)
     {
         return owner.equals(hp)? Rank.OWNER : members.getOrDefault(hp, Rank.NOTMEMBER);
     }
     
     private final Map<HClan, Relation> relations;
-    public void relationAdd(final HClan relative, final Relation rel)
+    public void addRelation(final HClan relative, final Relation rel)
     {
         if(rel==Relation.NEUTRAL)
         {
@@ -109,13 +109,13 @@ public class HClan
         }
     }
     
-    public Relation relationGet(final HClan relative)
+    public Relation getRelation(final HClan relative)
     {
         return relative.equals(this) ? Relation.OWN : Optional.ofNullable(relations.get(relative)).orElseGet(() -> Relation.NEUTRAL);
     }
     
     private final Set<Claim> claims;
-    public void claimAdd(final Claim claim)
+    public void addClaim(final Claim claim)
     {
         claims.add(claim);
     }
@@ -126,22 +126,22 @@ public class HClan
     }
     
     private double exp=0D;
-    public void expAdd(final double add)
+    public void addExp(final double add)
     {
         exp+=add;
     }
     
-    public void expRemove(final double remove)
+    public void removeExp(final double remove)
     {
         exp-=remove;
     }
     
-    public void expSet(final double exp)
+    public void setExp(final double exp)
     {
         this.exp=exp;
     }
     
-    public double expGet()
+    public double getExp()
     {
         return exp;
     }

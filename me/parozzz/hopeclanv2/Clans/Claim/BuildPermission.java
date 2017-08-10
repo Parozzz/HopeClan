@@ -30,12 +30,12 @@ public class BuildPermission
     }
     
     private Rank rank;
-    public void rankSet(final Rank rank)
+    public void setRank(final Rank rank)
     {
         this.rank=rank;
     }
     
-    public Rank rankGet()
+    public Rank getRank()
     {
         return rank;
     }

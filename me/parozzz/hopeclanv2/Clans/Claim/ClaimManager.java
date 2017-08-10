@@ -19,24 +19,19 @@ public class ClaimManager
 {
     private static final Map<String, Claim> claims=new HashMap<>();
     
-    public static void claimGet(final HClan clan, final Chunk c)
+    public static void add(final HClan clan, final Chunk c)
     {
-        claimAdd(clan, Utils.chunkToString(c));
+        add(clan, Utils.chunkToString(c));
     }
     
-    public static void claimAdd(final HClan clan, final Chunk c)
-    {
-        claimAdd(clan, Utils.chunkToString(c));
-    }
-    
-    public static void claimAdd(final HClan clan, final String chunk)
+    public static void add(final HClan clan, final String chunk)
     {
         Claim claim=new Claim(clan, chunk);
-        clan.claimAdd(claim);
+        clan.addClaim(claim);
         claims.put(chunk, claim);
     }
     
-    public static Claim claimGet(final Chunk c)
+    public static Claim get(final Chunk c)
     {
         return claims.get(Utils.chunkToString(c));
     }

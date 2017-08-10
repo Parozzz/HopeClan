@@ -24,7 +24,7 @@ public class ClaimHandler implements Listener
     @EventHandler(ignoreCancelled=true, priority=EventPriority.MONITOR)
     private void onBrew(final BrewEvent e)
     {
-        Optional.ofNullable(ClaimManager.claimGet(e.getBlock().getChunk())).ifPresent(claim -> 
+        Optional.ofNullable(ClaimManager.get(e.getBlock().getChunk())).ifPresent(claim -> 
         {
             Utils.callEvent(new ClanExpChangeEvent(null, claim.getClan(), ExpManager.getBrewExp(), ExpChangeCause.BREW));
         });        

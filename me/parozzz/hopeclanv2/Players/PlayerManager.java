@@ -25,7 +25,7 @@ public class PlayerManager
     private static final Map<Player, HPlayer> onlinePlayers=new HashMap<>();
     private static final Map<String, HPlayer> offlinePlayers=new HashMap<>();
     
-    protected static void playerSetOnline(final Player p)
+    protected static void setOnline(final Player p)
     {
         HPlayer hp=Optional.ofNullable(offlinePlayers.remove(p.getName())).orElseGet(() -> new HPlayer(p));
         
@@ -34,14 +34,14 @@ public class PlayerManager
         onlinePlayers.put(p, hp);
     }
     
-    protected static void playerSetOffline(final Player p)
+    protected static void setOffline(final Player p)
     {
         offlinePlayers.put(p.getName(), onlinePlayers.remove(p));
         
         p.removeMetadata(METADATA, JavaPlugin.getPlugin(HopeClan.class));
     }
     
-    public static HPlayer playerGet(final Player p)
+    public static HPlayer get(final Player p)
     {
         return (HPlayer)p.getMetadata(METADATA).get(0).value();
     }

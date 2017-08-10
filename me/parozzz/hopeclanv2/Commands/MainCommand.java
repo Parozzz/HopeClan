@@ -44,7 +44,7 @@ public class MainCommand implements CommandExecutor
         {
             if(cs instanceof Player)
             {
-                HPlayer hp=PlayerManager.playerGet((Player)cs);
+                HPlayer hp=PlayerManager.get((Player)cs);
                 playerCommands.values().stream().filter(pCmd -> pCmd.canBeUsed(hp, true)).forEach(pCmd -> pCmd.sendHelp(hp));
             }
         }
@@ -52,7 +52,7 @@ public class MainCommand implements CommandExecutor
         {
             if(cs instanceof Player)
             {
-                HPlayer hp=PlayerManager.playerGet((Player)cs);
+                HPlayer hp=PlayerManager.get((Player)cs);
                 Optional.ofNullable(playerCommands.get(val[0]))
                         .filter(pCmd -> pCmd.canBeUsed(hp, false))
                         .map(pCmd -> 

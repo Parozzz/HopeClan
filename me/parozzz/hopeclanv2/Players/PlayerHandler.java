@@ -5,14 +5,10 @@
  */
 package me.parozzz.hopeclanv2.Players;
 
-import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import me.parozzz.hopeclanv2.Clans.Claim.BuildPermission.BuildType;
 import me.parozzz.hopeclanv2.Clans.Claim.ClaimManager;
-import me.parozzz.hopeclanv2.Clans.HClan;
 import me.parozzz.hopeclanv2.Clans.HClan.Relation;
 import me.parozzz.hopeclanv2.Events.ClanExpChangeEvent;
 import me.parozzz.hopeclanv2.Events.ClanExpChangeEvent.ExpChangeCause;
@@ -24,9 +20,6 @@ import me.parozzz.hopeclanv2.Utils;
 import me.parozzz.hopeclanv2.Utils.CreatureType;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -43,7 +36,6 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Openable;
 
 /**
@@ -59,19 +51,19 @@ public class PlayerHandler implements Listener
     @EventHandler(ignoreCancelled=true)
     private void onPlayerEnter(final PlayerLoginEvent e)
     {
-        PlayerManager.playerSetOnline(e.getPlayer());
+        PlayerManager.setOnline(e.getPlayer());
     }
     
     @EventHandler(ignoreCancelled=true)
     private void onPlayerQuit(final PlayerQuitEvent e)
     {
-        PlayerManager.playerSetOffline(e.getPlayer());
+        PlayerManager.setOffline(e.getPlayer());
     }
     
     @EventHandler(ignoreCancelled=true)
     private void onPlayerKick(final PlayerKickEvent e)
     {
-        PlayerManager.playerSetOffline(e.getPlayer());
+        PlayerManager.setOffline(e.getPlayer());
     }
     
     @EventHandler(ignoreCancelled=true, priority=EventPriority.MONITOR)
@@ -79,9 +71,9 @@ public class PlayerHandler implements Listener
     {
         if(e.getDamager().getType()==EntityType.PLAYER && e.getEntityType()==EntityType.PLAYER)
         {
-            e.setCancelled(Optional.of(PlayerManager.playerGet((Player)e.getEntity()))
+            e.setCancelled(Optional.of(PlayerManager.get((Player)e.getEntity()))
                     .filter(hp -> hp.getClan()!=null)
-                    .map(hit -> new PlayerHitClanMemberEvent(PlayerManager.playerGet((Player)e.getDamager()), hit))
+                    .map(hit -> new PlayerHitClanMemberEvent(PlayerManager.get((Player)e.getDamager()), hit))
                     .map(Utils::callEvent)
                     .filter(Cancellable::isCancelled).isPresent());
         }
@@ -92,8 +84,8 @@ public class PlayerHandler implements Listener
     {
         if(Optional.of(e.getFrom().getChunk())
                 .filter(c -> !c.equals(e.getTo().getChunk()))
-                .flatMap(c -> Optional.ofNullable(ClaimManager.claimGet(c)))
-                .map(claim -> new PlayerStepIntoClaimEvent(PlayerManager.playerGet(e.getPlayer()), claim))
+                .flatMap(c -> Optional.ofNullable(ClaimManager.get(c)))
+                .map(claim -> new PlayerStepIntoClaimEvent(PlayerManager.get(e.getPlayer()), claim))
                 .map(Utils::callEvent)
                 .filter(event -> event.isCancelled()).isPresent())
         {
@@ -109,7 +101,7 @@ public class PlayerHandler implements Listener
     {
         e.setCancelled(Optional.ofNullable(e.getClickedBlock())
                 .map(Block::getChunk)
-                .flatMap(claim -> Optional.ofNullable(ClaimManager.claimGet(claim)))
+                .flatMap(claim -> Optional.ofNullable(ClaimManager.get(claim)))
                 .flatMap(claim -> 
                 {
                     BuildType type=null;
@@ -143,7 +135,7 @@ public class PlayerHandler implements Listener
                             }
                     }
                     
-                    return Optional.ofNullable(type!=null? new PlayerInteractInClaimEvent(PlayerManager.playerGet(e.getPlayer()), claim, e.getClickedBlock(), type) : null);
+                    return Optional.ofNullable(type!=null? new PlayerInteractInClaimEvent(PlayerManager.get(e.getPlayer()), claim, e.getClickedBlock(), type) : null);
                 })
                 .map(Utils::callEvent)
                 .filter(Cancellable::isCancelled).isPresent());
@@ -152,11 +144,11 @@ public class PlayerHandler implements Listener
     @EventHandler(ignoreCancelled=true, priority=EventPriority.MONITOR)
     private void onPlayerDeath(final PlayerDeathEvent e)
     {
-        Optional.ofNullable(e.getEntity().getKiller()).map(PlayerManager::playerGet).ifPresent(killer -> 
+        Optional.ofNullable(e.getEntity().getKiller()).map(PlayerManager::get).ifPresent(killer -> 
         {
-            HPlayer hp=PlayerManager.playerGet(e.getEntity());
+            HPlayer hp=PlayerManager.get(e.getEntity());
             Optional.ofNullable(killer.getClan())
-                    .filter(clan -> clan.relationGet(hp.getClan())==Relation.ENEMY)
+                    .filter(clan -> clan.getRelation(hp.getClan())==Relation.ENEMY)
                     .ifPresent(clan -> Utils.callEvent(new ClanExpChangeEvent(killer, clan, ExpManager.getEnemyKillExp(), ExpChangeCause.ENEMYKILL)));
         });
     }
@@ -166,7 +158,7 @@ public class PlayerHandler implements Listener
     {
         Optional.ofNullable(ExpManager.getMobExp(CreatureType.getByLivingEntity(e.getEntity()))).ifPresent(exp -> 
         {
-            Optional.ofNullable(e.getEntity().getKiller()).map(PlayerManager::playerGet).ifPresent(hp -> 
+            Optional.ofNullable(e.getEntity().getKiller()).map(PlayerManager::get).ifPresent(hp -> 
             {
                 Optional.ofNullable(hp.getClan()).ifPresent(clan ->  Utils.callEvent(new ClanExpChangeEvent(hp, clan, exp, ExpChangeCause.MOB)));
             });
@@ -180,7 +172,7 @@ public class PlayerHandler implements Listener
                 .filter(exp -> ExpManager.checkSilkTouch(Utils.getMainHand(e.getPlayer().getEquipment())))
                 .ifPresent(exp -> 
                 {
-                    HPlayer hp=PlayerManager.playerGet(e.getPlayer());
+                    HPlayer hp=PlayerManager.get(e.getPlayer());
                     Optional.ofNullable(hp.getClan()).ifPresent(clan -> Utils.callEvent(new ClanExpChangeEvent(hp, clan, exp, ExpChangeCause.BLOCK)));
                 });
     }

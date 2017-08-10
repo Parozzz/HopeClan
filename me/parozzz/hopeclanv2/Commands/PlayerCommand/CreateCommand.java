@@ -51,7 +51,7 @@ public class CreateCommand implements PlayerCommand
         {
             return false;
         }
-        else if(ClanManager.clanGet(val[0])!=null)
+        else if(ClanManager.get(val[0])!=null)
         {
             CommandMessageEnum.CREATENAMEEXIST.chat(hp);
         }

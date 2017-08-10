@@ -54,7 +54,7 @@ public class PlayerInteractInClaimEvent extends Event implements Cancellable
     
     public boolean canInteract()
     {
-        return claim.getBuildPermissions().hasBuildType(claim.getClan().relationGet(hp.getClan()), type);
+        return claim.getBuildPermissions().hasBuildType(claim.getClan().getRelation(hp.getClan()), type);
     }
     
     public Block getBlock()

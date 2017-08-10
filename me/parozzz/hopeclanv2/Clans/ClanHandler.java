@@ -62,14 +62,14 @@ public class ClanHandler implements Listener
     private void onClanCreation(final ClanCreateEvent e)
     {
         MessageEnum.CLANCREATE.chat(e.getOwner());
-        ClanManager.clanAdd(e.getName(), e.getTag(), e.getOwner());
+        ClanManager.add(e.getName(), e.getTag(), e.getOwner());
     }
     
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
     private void onClanDisband(final ClanDisbandEvent e)
     {
         MessageEnum.CLANDISBAND.chat(e.getClanOwner());
-        ClanManager.clanRemove(e.getClan());
+        ClanManager.remove(e.getClan());
     }
     
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
@@ -78,7 +78,7 @@ public class ClanHandler implements Listener
         if(e.getRelation()!=Relation.OWN)
         {
             e.getClanOwner().sendMessage(MessageEnum.RELATIONCHANGED.get().replace("%relative%", e.getRelative().getName()).replace("%relation%", e.getRelation().name()));
-            e.getClan().relationAdd(e.getRelative(), e.getRelation());
+            e.getClan().addRelation(e.getRelative(), e.getRelation());
         }
     }
     
@@ -86,7 +86,7 @@ public class ClanHandler implements Listener
     private void onChunkClaim(final ClaimChunkEvent e)
     {
         MessageEnum.CLAIMCHUNK.chat(e.getPlayer());
-        ClaimManager.claimAdd(e.getClan(), e.getChunk());
+        ClaimManager.add(e.getClan(), e.getChunk());
     }
     
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
@@ -98,7 +98,7 @@ public class ClanHandler implements Listener
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
     private void onPlayerHitClanMember(final PlayerHitClanMemberEvent e)
     {
-        switch(e.getHitClan().relationGet(e.getDamager().getClan()))
+        switch(e.getHitClan().getRelation(e.getDamager().getClan()))
         {
             case ALLIED:
             case OWN:
@@ -125,6 +125,6 @@ public class ClanHandler implements Listener
     {
         Optional.ofNullable(e.getPlayerInvolved())
                 .ifPresent(hp -> hp.sendActionBar(MessageEnum.CLANEXPGAIN.get().replace("%exp%", Objects.toString(e.getExpModifier()))));
-        e.getClan().expAdd(e.getExpModifier());
+        e.getClan().addExp(e.getExpModifier());
     }
 }
