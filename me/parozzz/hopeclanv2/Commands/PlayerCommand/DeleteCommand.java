@@ -5,15 +5,12 @@
  */
 package me.parozzz.hopeclanv2.Commands.PlayerCommand;
 
-import java.util.Optional;
-import me.parozzz.hopeclanv2.Clans.HClan;
-import me.parozzz.hopeclanv2.Clans.HClan.Rank;
-import me.parozzz.hopeclanv2.CommandManager;
 import me.parozzz.hopeclanv2.CommandManager.CommandMessageEnum;
 import me.parozzz.hopeclanv2.CommandManager.CommandType;
 import me.parozzz.hopeclanv2.Events.ClanDisbandEvent;
 import me.parozzz.hopeclanv2.HopeClan;
 import me.parozzz.hopeclanv2.Players.HPlayer;
+import me.parozzz.hopeclanv2.RankManager.Rank;
 import me.parozzz.hopeclanv2.Utils;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;

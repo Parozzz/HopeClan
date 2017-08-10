@@ -11,15 +11,38 @@ Message:
   claimEnterSubtitle: '&7Claimer: %clan%'
   claimChunk: '&7You have claimed this chunk'
 
+Ranks:
+  owner:
+    color: aqua
+    name: "owner"
+  moderator:
+    color: dark_aqua
+    name: "moderator"
+  trusted:
+    color: green
+    name: "trusted"
+  member:
+    color: gray
+    name: "member"
+  
+
 Commands:
   Name: #This will change the command name (Or alias).
     create: 'create'
     delete: 'delete'
+    quit: 'quit'
+    kick: 'kick'
+    rank: 'rank'
   Message:
     commandWrong: '&4That command does not exist. &7Use /clan for help'
-    commandOnlyOwner: '&4That command can be only executed by clan owners'
+    commandOwnerOnly: '&4That command can be only executed by clan owners'
+    commandModeratorOnly: '&4That command can be only executed by clan moderators'
+    
+    playerWrongClan: '&4That player is not in your clan'
     playerInClan: '&7You are already in a clan'
     playerNotInClan: '&4You are not in a clan'
+    otherPlayerNotInClan: '&4That player is not in a clan'
+    playerInexistent: '&4A player with that name does not exist'
     
     createHelp: '&7/clan create &l*Name* *Tag*'
     createNameExist: '&4A clan with that name already exist'
@@ -28,7 +51,18 @@ Commands:
     deleteHelp: '&7/clan delete'
     deleteClan: '&7You have deleted your clan'
     deleteConfirm: '&7>> &4Click here to confirm &7<<' #This will show a clickable message
-  
+    
+    quitHelp: '&7/clan quit'
+    quitClan: '&7You have quit the clan'
+    quitOwner: '&4Owner cannot quit the server'
+    
+    kickHelp: '&7/clan kick *player*'
+    kickPlayer: '&7%player% has been kicked from the clan'
+    
+    rankHelp: '/clan rank *player* *rank* - Ranks: Moderator, Trusted or Member'
+    rankChange: '%player%''s rank has been changed to %rank%'
+    rankWrong: '&4That rank does not exist'
+    
 Experience:
   enemyKill: 2.5 #When a clan member kill a member of an enemy clan
   potionBrew: 0.25 #When a potion is brewed in a clan claim

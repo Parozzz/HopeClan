@@ -20,7 +20,7 @@ public class CommandManager
     
     public static enum CommandType
     {
-        CREATE, DELETE;
+        CREATE, DELETE, QUIT, KICK, RANK;
         
         public String getName()
         {
@@ -30,10 +30,13 @@ public class CommandManager
     
     public static enum CommandMessageEnum
     {
-        COMMANDWRONG, COMMANDOWNERONLY,
-        PLAYERINCLAN, PLAYERNOTINCLAN,
+        COMMANDWRONG, COMMANDOWNERONLY, COMMANDMODERATORONLY,
+        PLAYERINCLAN, PLAYERNOTINCLAN, OTHERPLAYERNOTINCLAN, PLAYERINEXISTENT, PLAYERWRONGCLAN,
         CREATEHELP, CREATENAMEEXIST, CREATECLAN,
-        DELETEHELP, DELETECLAN, DELETECONFIRM;
+        DELETEHELP, DELETECLAN, DELETECONFIRM,
+        QUITHELP, QUITCLAN, QUITOWNER,
+        KICKHELP, KICKPLAYER,
+        RANKHELP, RANKCHANGE, RANKWRONG;
         
         public void chat(final HPlayer hp)
         {

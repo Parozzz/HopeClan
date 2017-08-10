@@ -41,8 +41,13 @@ public class PlayerManager
         p.removeMetadata(METADATA, JavaPlugin.getPlugin(HopeClan.class));
     }
     
-    public static HPlayer get(final Player p)
+    public static HPlayer getOnline(final Player p)
     {
         return (HPlayer)p.getMetadata(METADATA).get(0).value();
+    }
+    
+    public static HPlayer getOffline(final String name)
+    {
+        return offlinePlayers.get(name);
     }
 }

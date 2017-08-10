@@ -5,7 +5,6 @@
  */
 package me.parozzz.hopeclanv2.Clans;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -13,29 +12,14 @@ import java.util.Optional;
 import java.util.Set;
 import me.parozzz.hopeclanv2.Clans.Claim.Claim;
 import me.parozzz.hopeclanv2.Players.HPlayer;
+import me.parozzz.hopeclanv2.RankManager.Rank;
 
 /**
  *
  * @author Paros
  */
 public class HClan 
-{
-    public static enum Rank
-    {
-        OWNER(4), MODERATOR(3), TRUSTED(2), MEMBER(1), NOTMEMBER(0);
-        
-        private final int level;
-        private Rank(final int level)
-        {
-            this.level=level;
-        }
-        
-        public int getPermissionLevel()
-        {
-            return level;
-        }
-    }
-    
+{    
     public static enum Relation
     {
         NEUTRAL, ALLIED, ENEMY, OWN;
@@ -93,7 +77,7 @@ public class HClan
     
     public Rank getRank(final HPlayer hp)
     {
-        return owner.equals(hp)? Rank.OWNER : members.getOrDefault(hp, Rank.NOTMEMBER);
+        return owner.equals(hp)? Rank.OWNER : members.get(hp);
     }
     
     private final Map<HClan, Relation> relations;

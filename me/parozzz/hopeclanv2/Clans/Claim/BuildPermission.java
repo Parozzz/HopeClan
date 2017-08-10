@@ -8,8 +8,8 @@ package me.parozzz.hopeclanv2.Clans.Claim;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.stream.Stream;
-import me.parozzz.hopeclanv2.Clans.HClan.Rank;
 import me.parozzz.hopeclanv2.Clans.HClan.Relation;
+import me.parozzz.hopeclanv2.RankManager.Rank;
 
 /**
  *
