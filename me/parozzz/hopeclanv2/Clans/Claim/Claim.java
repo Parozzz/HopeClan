@@ -13,11 +13,10 @@ import me.parozzz.hopeclanv2.Clans.HClan;
  */
 public class Claim 
 {
-    public Claim(final HClan clan, final String chunk, final String name)
+    public Claim(final HClan clan, final String chunk)
     {
         this.clan=clan;
         this.chunk=chunk;
-        this.name=name;
         
         permissions=new BuildPermission();
     }
@@ -32,12 +31,6 @@ public class Claim
     public String getChunk()
     {
         return chunk;
-    }
-    
-    private final String name;
-    public String getName()
-    {
-        return name;
     }
     
     private final BuildPermission permissions;

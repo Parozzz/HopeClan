@@ -49,7 +49,7 @@ public class HopeClan extends JavaPlugin
         FileConfiguration c=Utils.fileStartup(this, new File(this.getDataFolder(), "config.yml"));
         initializeStatics(c);
         
-        PlayerHandler playerHandler=new PlayerHandler();
+        PlayerHandler playerHandler=new PlayerHandler(c);
         ClanHandler clanHandler=new ClanHandler();
         
         registerListeners(playerHandler, clanHandler);

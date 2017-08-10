@@ -3,7 +3,68 @@ Message:
   hitAlly: '&2&lAlly hit'
   interactionNotAllowed: '&7&lNot Allowed'
   relationChanged: '&7Now %relative% is your %relation%'
+  clanExpGain: '&2+%exp%'
   clanCreate: '&4You have created a new clan'
   clanDisband: '&4You have disbanded your clan'
   claimEnterTitle: '&7Chunk claimed'
   claimEnterSubtitle: '&7Claimer: %clan%'
+  claimChunk: '&7You have claimed this chunk'
+  
+Experience:
+  silkTouch: false #Can the player have silk touch when mining the block?
+  block:
+    coal_ore: 0.15
+    iron_ore: 0.5
+    quartz_ore: 0.65
+    glowing_redstone_ore: 0.75
+    gold_ore: 0.85
+    lapis_ore: 1.15
+    emerald_ore: 15
+  mob:
+    BAT: 0.1
+    PIG: 0.2
+    OCELOT: 0.25
+    COW: 0.35
+    MUSHROOM_COW: 1.25
+    CHICKEN: 0.25
+    HORSE: 0.4
+    SKELETON_HORSE: 0.85
+    ZOMBIE_HORSE: 2.25
+    DONKEY: 0.55
+    LLAMA: 0.55
+    MULE: 0.55
+    RABBIT: 0.25
+    SHEEP: 0.4
+    SQUID: 0.15
+    WOLF: 0.35
+    VILLAGER: 0.65
+    POLAR_BEAR: 1.25
+    SHULKER: 3.5
+    SLIME: 0.015
+    SNOWMAN: 0.15
+    SPIDER: 0.25
+    CAVE_SPIDER: 0.20
+    SILVERFISH: 0.25
+    SKELETON: 0.35
+    STRAY: 0.40
+    WITHER_SKELETON: 1.05
+    ZOMBIE: 0.30
+    HUSK: 0.35
+    ZOMBIE_VILLAGER: 0.30
+    CREEPER: 0.40
+    VINDICATOR: 1.5
+    EVOKER: 1.45
+    VEX: 0.25
+    WITCH: 0.95
+    IRON_GOLEM: 1.85
+    MAGMA_CUBE: 0.025
+    PIG_ZOMBIE: 0.65
+    GHAST: 2.5
+    BLAZE: 0.75
+    ELDER_GUARDIAN: 10
+    GUARDIAN: 1.2
+    GIANT: 25.0
+    ENDERMAN: 1.15
+    ENDERMITE: 0.15
+    ENDER_DRAGON: 2000.0
+    WITHER: 750.0

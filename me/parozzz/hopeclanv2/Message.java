@@ -23,7 +23,7 @@ public class Message
         INTERACTIONNOTALLOWED,
         RELATIONCHANGED,
         CLANDISBAND,CLANCREATE,
-        CLAIMENTERTITLE, CLAIMENTERSUBTITLE;
+        CLAIMENTERTITLE, CLAIMENTERSUBTITLE, CLAIMCHUNK, CLANEXPGAIN;
         
         public void chat(final HPlayer hp)
         {
@@ -49,6 +49,6 @@ public class Message
         PREFIX = Utils.color(c.getString("Prefix"));
         
         ConfigurationSection mPath=c.getConfigurationSection("Message");
-        messages.putAll(mPath.getKeys(false).stream().collect(Collectors.toMap(str -> MessageEnum.valueOf(str.toUpperCase()), str -> Utils.color(mPath.getString(str)))));
+        messages.putAll(mPath.getKeys(false).stream().collect(Collectors.toMap(str -> MessageEnum.valueOf(str.toUpperCase()), str -> PREFIX+Utils.color(mPath.getString(str)))));
     }
 }

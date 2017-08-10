@@ -6,7 +6,6 @@
 package me.parozzz.hopeclanv2.Events;
 
 import me.parozzz.hopeclanv2.Clans.HClan;
-import me.parozzz.hopeclanv2.Clans.HClan.Relation;
 import me.parozzz.hopeclanv2.Players.HPlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -16,18 +15,28 @@ import org.bukkit.event.HandlerList;
  *
  * @author Paros
  */
-public class ClanRelationChangeEvent extends Event implements Cancellable
+public class ClanExpChangeEvent extends Event implements Cancellable
 {
-    private final HPlayer clanOwner;
-    private final Relation relation;
-    private final HClan relative;
-    private final HClan clan;
-    public ClanRelationChangeEvent(final HPlayer clanOwner, final HClan clan, final HClan relative, final Relation relation)
+    public enum ExpChangeCause
     {
-        this.relative=relative;
-        this.relation=relation;
+        MOB, BLOCK;
+    }
+    
+    private final HPlayer hp;
+    private final HClan clan;
+    private final double modifier;
+    private final ExpChangeCause cause;
+    public ClanExpChangeEvent(final HPlayer hp, final HClan clan, final double modifier, final ExpChangeCause cause)
+    {
+        this.hp=hp;
         this.clan=clan;
-        this.clanOwner=clanOwner;
+        this.modifier=modifier;
+        this.cause=cause;
+    }
+    
+    public HPlayer getPlayerInvolved()
+    {
+        return hp;
     }
     
     public HClan getClan()
@@ -35,19 +44,14 @@ public class ClanRelationChangeEvent extends Event implements Cancellable
         return clan;
     }
     
-    public HPlayer getClanOwner()
+    public double getExpModifier()
     {
-        return clanOwner;
+        return modifier;
     }
     
-    public HClan getRelative()
+    public ExpChangeCause getCause()
     {
-        return relative;
-    }
-    
-    public Relation getRelation()
-    {
-        return relation;
+        return cause;
     }
     
     private static final HandlerList handlers = new HandlerList();

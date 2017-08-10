@@ -7,6 +7,7 @@ package me.parozzz.hopeclanv2.Clans;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -50,7 +51,7 @@ public class HClan
         
         members=new HashMap<>();
         relations=new HashMap<>();
-        claims=new HashMap<>();
+        claims=new HashSet<>();
     }
     
     public synchronized String getName()
@@ -113,19 +114,46 @@ public class HClan
         return relative.equals(this) ? Relation.OWN : Optional.ofNullable(relations.get(relative)).orElseGet(() -> Relation.NEUTRAL);
     }
     
-    private final Map<String, Claim> claims;
+    private final Set<Claim> claims;
     public void claimAdd(final Claim claim)
     {
-        claims.put(claim.getName().toLowerCase(), claim);
+        claims.add(claim);
     }
     
-    public Claim claimGet(final String name)
+    public Set<Claim> claimList()
     {
-        return claims.get(name.toLowerCase());
+        return claims;
     }
     
-    public Collection<Claim> claimList()
+    private double exp=0D;
+    public void expAdd(final double add)
     {
-        return claims.values();
+        exp+=add;
+    }
+    
+    public void expRemove(final double remove)
+    {
+        exp-=remove;
+    }
+    
+    public void expSet(final double exp)
+    {
+        this.exp=exp;
+    }
+    
+    public double expGet()
+    {
+        return exp;
+    }
+    
+    private int level=0;
+    public void levelUp()
+    {
+        level+=1;
+    }
+    
+    public int levelGet()
+    {
+        return level;
     }
 }
