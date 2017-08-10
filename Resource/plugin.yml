@@ -1,0 +1,16 @@
+name: HopeClan
+version: 0.1
+main: me.parozzz.hopeclanv2.HopeClan
+commands:
+  clan:
+    aliases: [c]
+    Usage: /clan
+    Description: Main command
+# permission:
+#  hopeclan.admin:
+#    description: Use admin commands
+#    default: op
+#  hopeclan.player:
+#    description: Use player commands
+#    default: op
+softdepend: [NametagEdit]
