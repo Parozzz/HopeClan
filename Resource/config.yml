@@ -1,4 +1,5 @@
 Prefix: "&7[&4Clan&7]"
+
 Message:
   hitAlly: '&2&lAlly hit'
   interactionNotAllowed: '&7&lNot Allowed'
@@ -9,6 +10,24 @@ Message:
   claimEnterTitle: '&7Chunk claimed'
   claimEnterSubtitle: '&7Claimer: %clan%'
   claimChunk: '&7You have claimed this chunk'
+
+Commands:
+  Name: #This will change the command name (Or alias).
+    create: 'create'
+    delete: 'delete'
+  Message:
+    commandWrong: '&4That command does not exist. &7Use /clan for help'
+    commandOnlyOwner: '&4That command can be only executed by clan owners'
+    playerInClan: '&7You are already in a clan'
+    playerNotInClan: '&4You are not in a clan'
+    
+    createHelp: '&7/clan create &l*Name* *Tag*'
+    createNameExist: '&4A clan with that name already exist'
+    createClan: '&7You created a new clan!'
+    
+    deleteHelp: '&7/clan delete'
+    deleteClan: '&7You have deleted your clan'
+    deleteConfirm: '&7>> &4Click here to confirm &7<<' #This will show a clickable message
   
 Experience:
   enemyKill: 2.5 #When a clan member kill a member of an enemy clan

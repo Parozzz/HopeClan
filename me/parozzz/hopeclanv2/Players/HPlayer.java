@@ -5,7 +5,9 @@
  */
 package me.parozzz.hopeclanv2.Players;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import me.parozzz.hopeclanv2.Clans.HClan;
 import me.parozzz.hopeclanv2.reflection.ActionBar;
@@ -22,6 +24,7 @@ public class HPlayer
     {
         this.op=op;
         invites=new HashSet<>();
+        metadata=new HashMap<>();
     }
     
     public OfflinePlayer getOfflinePlayer()
@@ -40,12 +43,12 @@ public class HPlayer
     }
     
     private HClan clan;
-    public void clanSet(final HClan clan)
+    public void setClan(final HClan clan)
     {
         this.clan=clan;
     }
     
-    public HClan clanGet()
+    public HClan getClan()
     {
         return clan;
     }
@@ -77,4 +80,26 @@ public class HPlayer
             ActionBar.send(op.getPlayer(), message);
         }
     }
+    
+    private final Map<String, Object> metadata;
+    public void addMetadata(final String key, final Object value)
+    {
+        metadata.put(key, value);
+    }
+    
+    public boolean hasMetadata(final String key)
+    {
+        return metadata.containsKey(key);
+    }
+    
+    public Object removeMetadata(final String key)
+    {
+        return metadata.remove(key);
+    }
+    
+    public Object getMetadata(final String key)
+    {
+        return metadata.get(key);
+    }
+    
 }

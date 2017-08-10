@@ -37,7 +37,7 @@ public class PlayerHitClanMemberEvent extends Event implements Cancellable
     
     public HClan getHitClan()
     {
-        return hit.clanGet();
+        return hit.getClan();
     }
     
     private static final HandlerList handlers = new HandlerList();

@@ -19,7 +19,7 @@ import me.parozzz.hopeclanv2.Events.PlayerHitClanMemberEvent;
 import me.parozzz.hopeclanv2.Events.PlayerInteractInClaimEvent;
 import me.parozzz.hopeclanv2.Events.PlayerStepIntoClaimEvent;
 import me.parozzz.hopeclanv2.Events.RelationChangeEvent;
-import me.parozzz.hopeclanv2.Message.MessageEnum;
+import me.parozzz.hopeclanv2.Messages.MessageEnum;
 import me.parozzz.hopeclanv2.Players.HPlayer;
 import me.parozzz.hopeclanv2.Utils;
 import org.bukkit.event.EventHandler;
@@ -98,7 +98,7 @@ public class ClanHandler implements Listener
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
     private void onPlayerHitClanMember(final PlayerHitClanMemberEvent e)
     {
-        switch(e.getHitClan().relationGet(e.getDamager().clanGet()))
+        switch(e.getHitClan().relationGet(e.getDamager().getClan()))
         {
             case ALLIED:
             case OWN:

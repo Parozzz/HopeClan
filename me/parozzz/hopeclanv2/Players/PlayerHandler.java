@@ -80,7 +80,7 @@ public class PlayerHandler implements Listener
         if(e.getDamager().getType()==EntityType.PLAYER && e.getEntityType()==EntityType.PLAYER)
         {
             e.setCancelled(Optional.of(PlayerManager.playerGet((Player)e.getEntity()))
-                    .filter(hp -> hp.clanGet()!=null)
+                    .filter(hp -> hp.getClan()!=null)
                     .map(hit -> new PlayerHitClanMemberEvent(PlayerManager.playerGet((Player)e.getDamager()), hit))
                     .map(Utils::callEvent)
                     .filter(Cancellable::isCancelled).isPresent());
@@ -155,8 +155,8 @@ public class PlayerHandler implements Listener
         Optional.ofNullable(e.getEntity().getKiller()).map(PlayerManager::playerGet).ifPresent(killer -> 
         {
             HPlayer hp=PlayerManager.playerGet(e.getEntity());
-            Optional.ofNullable(killer.clanGet())
-                    .filter(clan -> clan.relationGet(hp.clanGet())==Relation.ENEMY)
+            Optional.ofNullable(killer.getClan())
+                    .filter(clan -> clan.relationGet(hp.getClan())==Relation.ENEMY)
                     .ifPresent(clan -> Utils.callEvent(new ClanExpChangeEvent(killer, clan, ExpManager.getEnemyKillExp(), ExpChangeCause.ENEMYKILL)));
         });
     }
@@ -168,7 +168,7 @@ public class PlayerHandler implements Listener
         {
             Optional.ofNullable(e.getEntity().getKiller()).map(PlayerManager::playerGet).ifPresent(hp -> 
             {
-                Optional.ofNullable(hp.clanGet()).ifPresent(clan ->  Utils.callEvent(new ClanExpChangeEvent(hp, clan, exp, ExpChangeCause.MOB)));
+                Optional.ofNullable(hp.getClan()).ifPresent(clan ->  Utils.callEvent(new ClanExpChangeEvent(hp, clan, exp, ExpChangeCause.MOB)));
             });
         });
     }
@@ -181,7 +181,7 @@ public class PlayerHandler implements Listener
                 .ifPresent(exp -> 
                 {
                     HPlayer hp=PlayerManager.playerGet(e.getPlayer());
-                    Optional.ofNullable(hp.clanGet()).ifPresent(clan -> Utils.callEvent(new ClanExpChangeEvent(hp, clan, exp, ExpChangeCause.BLOCK)));
+                    Optional.ofNullable(hp.getClan()).ifPresent(clan -> Utils.callEvent(new ClanExpChangeEvent(hp, clan, exp, ExpChangeCause.BLOCK)));
                 });
     }
 }

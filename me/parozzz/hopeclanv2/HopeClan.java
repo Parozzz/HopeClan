@@ -62,7 +62,7 @@ public class HopeClan extends JavaPlugin
     
     private void initializeStatics(final FileConfiguration c)
     {
-        Message.init(c);
+        Messages.init(c);
         ExpManager.init(c);
     }
     

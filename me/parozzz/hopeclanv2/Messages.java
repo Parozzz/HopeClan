@@ -15,7 +15,7 @@ import org.bukkit.configuration.file.FileConfiguration;
  *
  * @author Paros
  */
-public class Message
+public class Messages
 {
     public static enum MessageEnum
     {
