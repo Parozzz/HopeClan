@@ -64,7 +64,7 @@ public class HopeClan extends JavaPlugin
     {
         Messages.init(c);
         ExpManager.init(c);
-        RankManager.init(c);
+        ClanEnumManager.init(c);
     }
     
     private void unregisterAll()

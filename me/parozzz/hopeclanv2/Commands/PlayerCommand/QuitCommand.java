@@ -5,7 +5,7 @@
  */
 package me.parozzz.hopeclanv2.Commands.PlayerCommand;
 
-import me.parozzz.hopeclanv2.RankManager.Rank;
+import me.parozzz.hopeclanv2.ClanEnumManager.Rank;
 import me.parozzz.hopeclanv2.CommandManager.CommandMessageEnum;
 import me.parozzz.hopeclanv2.CommandManager.CommandType;
 import me.parozzz.hopeclanv2.Players.HPlayer;

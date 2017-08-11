@@ -9,7 +9,7 @@ import java.util.EnumSet;
 import java.util.Optional;
 import me.parozzz.hopeclanv2.Clans.Claim.BuildPermission.BuildType;
 import me.parozzz.hopeclanv2.Clans.Claim.ClaimManager;
-import me.parozzz.hopeclanv2.Clans.HClan.Relation;
+import me.parozzz.hopeclanv2.ClanEnumManager.Relation;
 import me.parozzz.hopeclanv2.Events.ClanExpChangeEvent;
 import me.parozzz.hopeclanv2.Events.ClanExpChangeEvent.ExpChangeCause;
 import me.parozzz.hopeclanv2.Events.PlayerHitClanMemberEvent;

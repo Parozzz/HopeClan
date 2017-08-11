@@ -8,7 +8,6 @@ package me.parozzz.hopeclanv2;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,7 +16,7 @@ import org.bukkit.configuration.file.FileConfiguration;
  *
  * @author Paros
  */
-public class RankManager 
+public class ClanEnumManager 
 {
     public static enum Rank
     {
@@ -53,32 +52,67 @@ public class RankManager
         
         public static Rank getByName(final String name)
         {
-            return names.get(name.toLowerCase());
+            return rankNames.get(name.toLowerCase());
         }
     }
     
-    private final static EnumMap<Rank, RankOptions> ranks=new EnumMap(Rank.class);
-    private final static Map<String, Rank> names=new HashMap<>();
+    public static enum Relation
+    {
+        NEUTRAL, ALLIED, ENEMY, OWN;
+        
+        public ChatColor getColor()
+        {
+            return relations.get(this).getColor();
+        }
+        
+        public String getName()
+        {
+            return relations.get(this).getName();
+        }
+        
+        public static Relation getByName(final String name)
+        {
+            return relationNames.get(name.toLowerCase());
+        }
+    }
+    
+    private final static EnumMap<Rank, Options> ranks=new EnumMap(Rank.class);
+    private final static Map<String, Rank> rankNames=new HashMap<>();
+    
+    private final static EnumMap<Relation, Options> relations=new EnumMap(Relation.class);
+    private final static Map<String, Relation> relationNames=new HashMap<>();
     protected static void init(final FileConfiguration c)
     {
-        ConfigurationSection rPath=c.getConfigurationSection("Ranks");
-        rPath.getKeys(false).stream().map(str -> rPath.getConfigurationSection(str)).forEach(path -> 
+        ConfigurationSection rankPath=c.getConfigurationSection("Ranks");
+        rankPath.getKeys(false).stream().map(rankPath::getConfigurationSection).forEach(path -> 
         {
             Rank rank=Rank.valueOf(path.getName().toUpperCase());
             
             String rankName=path.getString("name");
-            RankOptions options=new RankOptions(rankName, ChatColor.valueOf(path.getString("color").toUpperCase()));
+            Options options=new Options(rankName, ChatColor.valueOf(path.getString("color").toUpperCase()));
             
             ranks.put(rank, options);
-            names.put(rankName.toLowerCase(), rank);
+            rankNames.put(rankName.toLowerCase(), rank);
+        });
+        
+        ConfigurationSection relPath=c.getConfigurationSection("Relations");
+        rankPath.getKeys(false).stream().map(relPath::getConfigurationSection).forEach(path -> 
+        {
+            Relation relation = Relation.valueOf(path.getName().toUpperCase());
+            
+            String relationName=path.getString("name");
+            Options options=new Options(relationName, ChatColor.valueOf(path.getString("color").toUpperCase()));
+            
+            relations.put(relation, options);
+            relationNames.put(relationName.toLowerCase(), relation);
         });
     }
     
-    public static class RankOptions
+    private static class Options
     {
         private final String name;
         private final ChatColor color;
-        public RankOptions(final String name, final ChatColor color)
+        public Options(final String name, final ChatColor color)
         {
             this.name=name;
             this.color=color;

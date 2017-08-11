@@ -12,19 +12,15 @@ import java.util.Optional;
 import java.util.Set;
 import me.parozzz.hopeclanv2.Clans.Claim.Claim;
 import me.parozzz.hopeclanv2.Players.HPlayer;
-import me.parozzz.hopeclanv2.RankManager.Rank;
+import me.parozzz.hopeclanv2.ClanEnumManager.Rank;
+import me.parozzz.hopeclanv2.ClanEnumManager.Relation;
 
 /**
  *
  * @author Paros
  */
 public class HClan 
-{    
-    public static enum Relation
-    {
-        NEUTRAL, ALLIED, ENEMY, OWN;
-    }
-    
+{        
     private volatile String tag;
     private volatile String name;
     protected HClan(final String name, final String tag, final HPlayer owner)

@@ -6,7 +6,7 @@
 package me.parozzz.hopeclanv2.Commands.PlayerCommand;
 
 import java.util.Optional;
-import me.parozzz.hopeclanv2.RankManager.Rank;
+import me.parozzz.hopeclanv2.ClanEnumManager.Rank;
 import me.parozzz.hopeclanv2.CommandManager.CommandMessageEnum;
 import me.parozzz.hopeclanv2.CommandManager.CommandType;
 import me.parozzz.hopeclanv2.Players.HPlayer;
@@ -55,23 +55,21 @@ public class KickCommand implements PlayerCommand
         {
             return false;
         }
+        
+        HPlayer toKick=Optional.ofNullable(Bukkit.getPlayer(val[0])).map(PlayerManager::getOnline).orElseGet(() -> PlayerManager.getOffline(val[0]));
+        if(toKick==null)
+        {
+            CommandMessageEnum.PLAYERINEXISTENT.chat(hp);
+        }
         else
         {
-            HPlayer toKick=Optional.ofNullable(Bukkit.getPlayer(val[0])).map(PlayerManager::getOnline).orElseGet(() -> PlayerManager.getOffline(val[0]));
-            if(toKick==null)
+            if(!hp.getClan().removeMember(toKick))
             {
-                CommandMessageEnum.PLAYERINEXISTENT.chat(hp);
+                CommandMessageEnum.OTHERPLAYERNOTINCLAN.chat(hp);
             }
             else
             {
-                if(!hp.getClan().removeMember(toKick))
-                {
-                    CommandMessageEnum.OTHERPLAYERNOTINCLAN.chat(hp);
-                }
-                else
-                {
-                    hp.sendMessage(CommandMessageEnum.KICKPLAYER.get().replace("%player%", toKick.getOfflinePlayer().getName()));
-                }
+                hp.sendMessage(CommandMessageEnum.KICKPLAYER.get().replace("%player%", toKick.getOfflinePlayer().getName()));
             }
         }
         return true;

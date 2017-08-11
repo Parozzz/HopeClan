@@ -25,6 +25,16 @@ Ranks:
     color: gray
     name: "member"
   
+Relations:
+  allied:
+    color: green
+    name: "ally"
+  enemy:
+    color: red
+    name: "enemy"
+  neutral:
+    color: white
+    name: "neutral"
 
 Commands:
   Name: #This will change the command name (Or alias).
@@ -33,11 +43,15 @@ Commands:
     quit: 'quit'
     kick: 'kick'
     rank: 'rank'
+    relation: 'relation'
   Message:
     commandWrong: '&4That command does not exist. &7Use /clan for help'
     commandOwnerOnly: '&4That command can be only executed by clan owners'
     commandModeratorOnly: '&4That command can be only executed by clan moderators'
     
+    clanWrong: '&4A clan with that name does not exist'
+    clanSame: '&4You can''t choose your same clan'
+        
     playerWrongClan: '&4That player is not in your clan'
     playerInClan: '&7You are already in a clan'
     playerNotInClan: '&4You are not in a clan'
@@ -59,10 +73,15 @@ Commands:
     kickHelp: '&7/clan kick *player*'
     kickPlayer: '&7%player% has been kicked from the clan'
     
-    rankHelp: '/clan rank *player* *rank* - Ranks: Moderator, Trusted or Member'
+    rankHelp: '&7/clan rank *player* *rank* - Ranks: Moderator, Trusted or Member'
     rankChange: '%player%''s rank has been changed to %rank%'
-    rankWrong: '&4That rank does not exist'
+    rankWrong: '&4That rank does not exist. &7Use Moderator, Trusted or Member'
     
+    relationHelp: '&7/clan relation *clan* *relation* - Relations: ally, enemy or neutral'
+    relationAlready: '&4That clan have already a relation with you. &7Set neutral to remove a relation'
+    relationSame: '&4That clan already has the same relation'
+    relationWrong: '&4That relation does not exist. &7Use Ally, enemy or neutral to remove a relation'
+    relationChange: '&7You add %clan% as %relation%'
 Experience:
   enemyKill: 2.5 #When a clan member kill a member of an enemy clan
   potionBrew: 0.25 #When a potion is brewed in a clan claim

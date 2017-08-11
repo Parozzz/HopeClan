@@ -10,7 +10,7 @@ import me.parozzz.hopeclanv2.CommandManager.CommandType;
 import me.parozzz.hopeclanv2.Events.ClanDisbandEvent;
 import me.parozzz.hopeclanv2.HopeClan;
 import me.parozzz.hopeclanv2.Players.HPlayer;
-import me.parozzz.hopeclanv2.RankManager.Rank;
+import me.parozzz.hopeclanv2.ClanEnumManager.Rank;
 import me.parozzz.hopeclanv2.Utils;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;

@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 import me.parozzz.hopeclanv2.Clans.Claim.Claim;
 import me.parozzz.hopeclanv2.Clans.Claim.ClaimManager;
-import me.parozzz.hopeclanv2.Clans.HClan.Relation;
+import me.parozzz.hopeclanv2.ClanEnumManager.Relation;
 import me.parozzz.hopeclanv2.Events.ClaimChunkEvent;
 import me.parozzz.hopeclanv2.Events.ClanCreateEvent;
 import me.parozzz.hopeclanv2.Events.ClanDisbandEvent;

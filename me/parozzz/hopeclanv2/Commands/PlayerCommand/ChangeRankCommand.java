@@ -6,13 +6,11 @@
 package me.parozzz.hopeclanv2.Commands.PlayerCommand;
 
 import java.util.Optional;
-import me.parozzz.hopeclanv2.CommandManager;
 import me.parozzz.hopeclanv2.CommandManager.CommandMessageEnum;
 import me.parozzz.hopeclanv2.CommandManager.CommandType;
 import me.parozzz.hopeclanv2.Players.HPlayer;
 import me.parozzz.hopeclanv2.Players.PlayerManager;
-import me.parozzz.hopeclanv2.RankManager;
-import me.parozzz.hopeclanv2.RankManager.Rank;
+import me.parozzz.hopeclanv2.ClanEnumManager.Rank;
 import org.bukkit.Bukkit;
 
 /**
@@ -57,33 +55,31 @@ public class ChangeRankCommand implements PlayerCommand
         {
             return false;
         }
+        
+        HPlayer toRank=Optional.ofNullable(Bukkit.getPlayer(val[0])).map(PlayerManager::getOnline).orElseGet(() -> PlayerManager.getOffline(val[0]));
+        if(toRank==null)
+        {
+            CommandMessageEnum.PLAYERINEXISTENT.chat(hp);
+        }
+        else if(toRank.getClan()==null)
+        {
+            CommandMessageEnum.PLAYERNOTINCLAN.chat(hp);
+        }
+        else if(!toRank.getClan().equals(hp.getClan()))
+        {
+            CommandMessageEnum.PLAYERWRONGCLAN.chat(hp);
+        }
         else
         {
-            HPlayer toRank=Optional.ofNullable(Bukkit.getPlayer(val[0])).map(PlayerManager::getOnline).orElseGet(() -> PlayerManager.getOffline(val[0]));
-            if(toRank==null)
+            Rank rank=Rank.getByName(val[1]);
+            if(rank==null)
             {
-                CommandMessageEnum.PLAYERINEXISTENT.chat(hp);
-            }
-            else if(toRank.getClan()==null)
-            {
-                CommandMessageEnum.PLAYERNOTINCLAN.chat(hp);
-            }
-            else if(!toRank.getClan().equals(hp.getClan()))
-            {
-                CommandMessageEnum.PLAYERWRONGCLAN.chat(hp);
+                CommandMessageEnum.RANKWRONG.chat(hp);
             }
             else
             {
-                Rank rank=Rank.getByName(val[1]);
-                if(rank==null)
-                {
-                    CommandMessageEnum.RANKWRONG.chat(hp);
-                }
-                else
-                {
-                    hp.getClan().setRank(toRank, rank);
-                    hp.sendMessage(CommandMessageEnum.RANKCHANGE.get().replace("%player%", hp.getOfflinePlayer().getName()).replace("%rank%", rank.getColor()+rank.getName()));
-                }
+                hp.getClan().setRank(toRank, rank);
+                hp.sendMessage(CommandMessageEnum.RANKCHANGE.get().replace("%player%", hp.getOfflinePlayer().getName()).replace("%rank%", rank.getColor()+rank.getName()));
             }
         }
         return true;

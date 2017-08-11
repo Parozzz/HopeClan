@@ -6,7 +6,7 @@
 package me.parozzz.hopeclanv2.Events;
 
 import me.parozzz.hopeclanv2.Clans.HClan;
-import me.parozzz.hopeclanv2.Clans.HClan.Relation;
+import me.parozzz.hopeclanv2.ClanEnumManager.Relation;
 import me.parozzz.hopeclanv2.Players.HPlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
