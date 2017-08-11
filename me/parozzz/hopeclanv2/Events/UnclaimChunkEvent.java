@@ -5,9 +5,9 @@
  */
 package me.parozzz.hopeclanv2.Events;
 
-import me.parozzz.hopeclanv2.Clans.HClan;
+import java.util.Set;
+import me.parozzz.hopeclanv2.Clans.Claim.Claim;
 import me.parozzz.hopeclanv2.Players.HPlayer;
-import org.bukkit.Chunk;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -16,23 +16,14 @@ import org.bukkit.event.HandlerList;
  *
  * @author Paros
  */
-public class ClaimChunkEvent extends Event implements Cancellable
+public class UnclaimChunkEvent extends Event implements Cancellable
 {
     private final HPlayer hp;
-    private final HClan clan;
-    private final Chunk c;
-    private final double expCost;
-    public ClaimChunkEvent(final HPlayer hp, final HClan clan, final double expCost, final Chunk c)
+    private final Set<Claim> claims;
+    public UnclaimChunkEvent(final HPlayer hp, final Set<Claim> claims)
     {
-        this.expCost=expCost;
         this.hp=hp;
-        this.clan=clan;
-        this.c=c;
-    }
-    
-    public double getExpCost()
-    {
-        return expCost;
+        this.claims=claims;
     }
     
     public HPlayer getPlayer()
@@ -40,14 +31,9 @@ public class ClaimChunkEvent extends Event implements Cancellable
         return hp;
     }
     
-    public HClan getClan()
+    public Set<Claim> getClaims()
     {
-        return clan;
-    }
-    
-    public Chunk getChunk()
-    {
-        return c;
+        return claims;
     }
     
     private static final HandlerList handlers = new HandlerList();

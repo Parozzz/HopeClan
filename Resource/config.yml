@@ -3,14 +3,23 @@ Prefix: "&7[&4Clan&7]"
 Message:
   hitAlly: '&2&lAlly hit'
   interactionNotAllowed: '&7&lNot Allowed'
+  
   relationChanged: '&7Now %relative% is your %relation%'
-  clanExpGain: '&2+%exp%'
+  
+  expGain: '&2+%exp%'
+  expTooLow: '&4You don''t have enough clan experience'
+  
   clanCreate: '&4You have created a new clan'
   clanDisband: '&4You have disbanded your clan'
   claimEnterTitle: '&7Chunk claimed'
   claimEnterSubtitle: '&7Claimer: %clan%'
   claimChunk: '&7You have claimed this chunk'
-
+  
+  unclaimChunk: '&7You have unclaimed this chunk'
+  unclaimAll: '&7You have unclaimed all your chunks'
+  
+  rankChange: '&7Your rank has been changed to %rank%'  
+    
 Ranks:
   owner:
     color: aqua
@@ -44,6 +53,27 @@ Commands:
     kick: 'kick'
     rank: 'rank'
     relation: 'relation'
+    claim: 'claim'
+    unclaim: 'unclaim'
+  ClaimCosts: 
+    #This will be costs of chunk claiming. 
+    #The numbers refer to the next to be claimed. If a clan have 0 claims, the cost to refer is 1. 1 claim to refer 2 etc...
+    #The last number will be the max chunk a clan can claim. Set all to 0 to remove the cost
+    1: 10.0
+    2: 40.0
+    3: 100.0
+    4: 400.0
+    5: 1500.0
+    6: 3500.0
+    7: 10000.0
+    8: 35000.0
+    9: 85000.0
+    10: 125000.0
+  #NotSure
+  #UnclaimExpReturn: 25 #This is a percentage. How much xp players will get back from unclaiming chunks
+  UnclaimSubcommand:
+    one: 'one'
+    all: 'all'
   Message:
     commandWrong: '&4That command does not exist. &7Use /clan for help'
     commandOwnerOnly: '&4That command can be only executed by clan owners'
@@ -76,12 +106,23 @@ Commands:
     rankHelp: '&7/clan rank *player* *rank* - Ranks: Moderator, Trusted or Member'
     rankChange: '%player%''s rank has been changed to %rank%'
     rankWrong: '&4That rank does not exist. &7Use Moderator, Trusted or Member'
+    rankSame: '&4That player already have that rank'
     
     relationHelp: '&7/clan relation *clan* *relation* - Relations: ally, enemy or neutral'
     relationAlready: '&4That clan have already a relation with you. &7Set neutral to remove a relation'
     relationSame: '&4That clan already has the same relation'
     relationWrong: '&4That relation does not exist. &7Use Ally, enemy or neutral to remove a relation'
-    relationChange: '&7You add %clan% as %relation%'
+    
+    claimHelp: '&7/clan claim'
+    claimAlready: '&4This chunk is already claimed by %clan%'
+    claimMaxReached: '&4You have reached the max number of claims'
+    
+    unclaimHelp: '&7/clan unclaim one<>all'
+    unclaimEmpty: '&4This chunk is not claimed'
+    unclaimOthers: '&4This chunk is not your'
+    unclaimNoClaims: '&4Your clan does not have any claim'
+    unclaimAllConfirm: '&7>> &4Click here to unclaim all chunks &7<<' #This will show a clickable message
+    
 Experience:
   enemyKill: 2.5 #When a clan member kill a member of an enemy clan
   potionBrew: 0.25 #When a potion is brewed in a clan claim

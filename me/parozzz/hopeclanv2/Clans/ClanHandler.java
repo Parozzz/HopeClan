@@ -17,6 +17,7 @@ import me.parozzz.hopeclanv2.Events.ClanDisbandEvent;
 import me.parozzz.hopeclanv2.Events.ClanExpChangeEvent;
 import me.parozzz.hopeclanv2.Events.PlayerHitClanMemberEvent;
 import me.parozzz.hopeclanv2.Events.PlayerInteractInClaimEvent;
+import me.parozzz.hopeclanv2.Events.PlayerRankChangeEvent;
 import me.parozzz.hopeclanv2.Events.PlayerStepIntoClaimEvent;
 import me.parozzz.hopeclanv2.Events.RelationChangeEvent;
 import me.parozzz.hopeclanv2.Messages.MessageEnum;
@@ -32,30 +33,9 @@ import org.bukkit.event.Listener;
  */
 public class ClanHandler implements Listener
 {
-    private final BiConsumer<HPlayer, Claim> title;
     public ClanHandler()
     {
-        if(Utils.bukkitVersion("1.8","1.9","1.10"))
-        {
-            title = (hp, claim) ->
-            {
-                if(hp.isOnline())
-                {
-                    hp.getPlayer().sendTitle(MessageEnum.CLAIMENTERTITLE.get(), MessageEnum.CLAIMENTERSUBTITLE.get().replace("%clan%", claim.getClan().getName()));
-                }
-                
-            };      
-        }
-        else
-        {
-            title = (hp, claim) ->
-            {
-                if(hp.isOnline())
-                {
-                    hp.getPlayer().sendTitle(MessageEnum.CLAIMENTERTITLE.get(), MessageEnum.CLAIMENTERSUBTITLE.get().replace("%clan%", claim.getClan().getName()), 7, 15, 7);
-                }
-            };
-        }
+
     }
     
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
@@ -77,22 +57,9 @@ public class ClanHandler implements Listener
     {
         if(e.getRelation()!=Relation.OWN)
         {
-            e.getClanOwner().sendMessage(MessageEnum.RELATIONCHANGED.get().replace("%relative%", e.getRelative().getName()).replace("%relation%", e.getRelation().name()));
+            e.getClanOwner().sendMessage(MessageEnum.RELATIONCHANGED.get().replace("%relative%", e.getRelative().getName()).replace("%relation%", e.getRelation().getColor() + e.getRelation().getName()));
             e.getClan().addRelation(e.getRelative(), e.getRelation());
         }
-    }
-    
-    @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
-    private void onChunkClaim(final ClaimChunkEvent e)
-    {
-        MessageEnum.CLAIMCHUNK.chat(e.getPlayer());
-        ClaimManager.add(e.getClan(), e.getChunk());
-    }
-    
-    @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
-    private void onPlayerStepIntoChunk(final PlayerStepIntoClaimEvent e)
-    {
-        title.accept(e.getPlayer(), e.getClaim());
     }
     
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
@@ -111,20 +78,17 @@ public class ClanHandler implements Listener
     }
     
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
-    private void onPlayerInteractInClaimEvent(final PlayerInteractInClaimEvent e)
+    private void onPlayerRankChange(final PlayerRankChangeEvent e)
     {
-        if(!e.canInteract())
-        {
-            MessageEnum.INTERACTIONNOTALLOWED.actionBar(e.getPlayer());
-            e.setCancelled(true);
-        }
+        e.getClan().setRank(e.getPlayer(), e.getNewRank());
+        e.getPlayer().sendMessage(MessageEnum.RANKCHANGE.get().replace("%player%", e.getPlayer().getOfflinePlayer().getName()).replace("%rank%", e.getNewRank().getColor()+e.getNewRank().getName()));
     }
     
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
     private void onExpChange(final ClanExpChangeEvent e)
     {
         Optional.ofNullable(e.getPlayerInvolved())
-                .ifPresent(hp -> hp.sendActionBar(MessageEnum.CLANEXPGAIN.get().replace("%exp%", Objects.toString(e.getExpModifier()))));
+                .ifPresent(hp -> hp.sendActionBar(MessageEnum.EXPGAIN.get().replace("%exp%", Objects.toString(e.getExpModifier()))));
         e.getClan().addExp(e.getExpModifier());
     }
 }

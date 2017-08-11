@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.stream.Stream;
+import me.parozzz.hopeclanv2.Clans.Claim.ClaimHandler;
 import me.parozzz.hopeclanv2.Clans.ClanHandler;
 import me.parozzz.hopeclanv2.Players.PlayerHandler;
 import org.bukkit.Bukkit;
@@ -51,8 +52,9 @@ public class HopeClan extends JavaPlugin
         
         PlayerHandler playerHandler=new PlayerHandler();
         ClanHandler clanHandler=new ClanHandler();
+        ClaimHandler claimHandler=new ClaimHandler();
         
-        registerListeners(playerHandler, clanHandler);
+        registerListeners(playerHandler, clanHandler, claimHandler);
     }
     
     private void registerListeners(final Listener... listeners)

@@ -11,6 +11,8 @@ import me.parozzz.hopeclanv2.CommandManager.CommandType;
 import me.parozzz.hopeclanv2.Players.HPlayer;
 import me.parozzz.hopeclanv2.Players.PlayerManager;
 import me.parozzz.hopeclanv2.ClanEnumManager.Rank;
+import me.parozzz.hopeclanv2.Events.PlayerRankChangeEvent;
+import me.parozzz.hopeclanv2.Utils;
 import org.bukkit.Bukkit;
 
 /**
@@ -71,15 +73,22 @@ public class ChangeRankCommand implements PlayerCommand
         }
         else
         {
-            Rank rank=Rank.getByName(val[1]);
-            if(rank==null)
+            Rank oldRank=toRank.getClan().getRank(hp);
+            Rank newRank=Rank.getByName(val[1]);
+            if(newRank==null)
             {
                 CommandMessageEnum.RANKWRONG.chat(hp);
             }
+            else if(oldRank==newRank)
+            {
+                CommandMessageEnum.RANKSAME.chat(hp);
+            }
             else
             {
-                hp.getClan().setRank(toRank, rank);
-                hp.sendMessage(CommandMessageEnum.RANKCHANGE.get().replace("%player%", hp.getOfflinePlayer().getName()).replace("%rank%", rank.getColor()+rank.getName()));
+                if(!Utils.callEvent(new PlayerRankChangeEvent(toRank, oldRank, newRank)).isCancelled())
+                {
+                    hp.sendMessage(CommandMessageEnum.RANKCHANGE.get().replace("%player%", hp.getOfflinePlayer().getName()).replace("%rank%", newRank.getColor()+newRank.getName()));
+                }
             }
         }
         return true;

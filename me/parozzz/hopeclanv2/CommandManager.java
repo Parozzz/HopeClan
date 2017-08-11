@@ -6,6 +6,8 @@
 package me.parozzz.hopeclanv2;
 
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import me.parozzz.hopeclanv2.Players.HPlayer;
 import org.bukkit.configuration.ConfigurationSection;
@@ -20,7 +22,7 @@ public class CommandManager
     
     public static enum CommandType
     {
-        CREATE, DELETE, QUIT, KICK, RANK, RELATION;
+        CREATE, DELETE, QUIT, KICK, RANK, RELATION, CLAIM, UNCLAIM;
         
         public String getName()
         {
@@ -37,8 +39,10 @@ public class CommandManager
         DELETEHELP, DELETECLAN, DELETECONFIRM,
         QUITHELP, QUITCLAN, QUITOWNER,
         KICKHELP, KICKPLAYER,
-        RANKHELP, RANKCHANGE, RANKWRONG,
-        RELATIONHELP, RELATIONCHANGE, RELATIONALREADY, RELATIONSAME, RELATIONWRONG;
+        RANKHELP, RANKCHANGE, RANKWRONG, RANKSAME,
+        RELATIONHELP, RELATIONALREADY, RELATIONSAME, RELATIONWRONG,
+        CLAIMHELP, CLAIMALREADY, CLAIMMAXREACHED,
+        UNCLAIMHELP, UNCLAIMEMPTY, UNCLAIMOTHERS, UNCLAIMNOCLAIMS, UNCLAIMALLCONFIRM;
         
         public void chat(final HPlayer hp)
         {
@@ -66,6 +70,9 @@ public class CommandManager
     
     private final static EnumMap<CommandType, String> commandNames=new EnumMap(CommandType.class);
     private final static EnumMap<CommandMessageEnum, String> messages=new EnumMap(CommandMessageEnum.class);
+    
+    private final static Map<String, UnclaimSubCommandEnum> unclaimSubCommands=new HashMap<>();
+    private final static Map<Integer, Double> claimCosts=new HashMap<>();
     protected static void init(final FileConfiguration c)
     {
         ConfigurationSection cPath=c.getConfigurationSection("Commands");
@@ -75,5 +82,32 @@ public class CommandManager
     
         ConfigurationSection nPath=cPath.getConfigurationSection("Name");
         commandNames.putAll(nPath.getKeys(false).stream().collect(Collectors.toMap(str -> CommandType.valueOf(str.toUpperCase()), str -> nPath.getString(str))));
+    
+        ConfigurationSection usPath=c.getConfigurationSection("Commands.UnclaimSubcommand");
+        unclaimSubCommands.putAll(usPath.getKeys(false).stream().collect(Collectors.toMap(str -> usPath.getString(str).toLowerCase() , str -> UnclaimSubCommandEnum.valueOf(str.toUpperCase()))));
+        
+        ConfigurationSection ccPath=c.getConfigurationSection("Commands.ClaimCosts");
+        claimCosts.putAll(ccPath.getKeys(false).stream().collect(Collectors.toMap(str -> Integer.valueOf(str), str -> ccPath.getDouble(str))));
+    }
+    
+    public static Double getCost(final int nextClaim)
+    {
+        return claimCosts.get(nextClaim);
+    }
+    
+    public static enum UnclaimSubCommandEnum
+    {
+        ONE, 
+        ALL;
+        
+        public String getName()
+        {
+            return unclaimSubCommands.entrySet().stream().filter(entry -> entry.getValue()==this).map(Map.Entry::getKey).findFirst().orElseGet(() -> null);
+        }
+        
+        public static UnclaimSubCommandEnum getByName(final String name)
+        {
+            return unclaimSubCommands.get(name.toLowerCase());
+        }
     }
 }

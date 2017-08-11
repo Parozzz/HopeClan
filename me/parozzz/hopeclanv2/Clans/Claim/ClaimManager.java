@@ -7,6 +7,7 @@ package me.parozzz.hopeclanv2.Clans.Claim;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import me.parozzz.hopeclanv2.Clans.HClan;
 import me.parozzz.hopeclanv2.Utils;
 import org.bukkit.Chunk;
@@ -19,12 +20,27 @@ public class ClaimManager
 {
     private static final Map<String, Claim> claims=new HashMap<>();
     
-    public static void add(final HClan clan, final Chunk c)
+    protected static void remove(final String chunk)
+    {
+        Optional.ofNullable(claims.remove(chunk)).ifPresent(claim -> claim.getClan().removeClaim(claim));
+    }
+    
+    protected static void remove(final Chunk c)
+    {
+        remove(Utils.chunkToString(c));
+    }
+    
+    protected static void remove(final Claim claim)
+    {
+        remove(claim.getChunk());
+    }
+    
+    protected static void add(final HClan clan, final Chunk c)
     {
         add(clan, Utils.chunkToString(c));
     }
     
-    public static void add(final HClan clan, final String chunk)
+    protected static void add(final HClan clan, final String chunk)
     {
         Claim claim=new Claim(clan, chunk);
         clan.addClaim(claim);

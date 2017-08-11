@@ -13,7 +13,9 @@ import me.parozzz.hopeclanv2.Clans.HClan;
 import me.parozzz.hopeclanv2.CommandManager;
 import me.parozzz.hopeclanv2.CommandManager.CommandMessageEnum;
 import me.parozzz.hopeclanv2.CommandManager.CommandType;
+import me.parozzz.hopeclanv2.Events.RelationChangeEvent;
 import me.parozzz.hopeclanv2.Players.HPlayer;
+import me.parozzz.hopeclanv2.Utils;
 
 /**
  *
@@ -86,8 +88,7 @@ public class ChangeRelationCommand implements PlayerCommand
             }
             else
             {
-                hp.getClan().addRelation(relative, newRelation);
-                hp.sendMessage(CommandMessageEnum.RELATIONCHANGE.get().replace("%clan%", relative.getName()).replace("%relation%", newRelation.getName()));
+                Utils.callEvent(new RelationChangeEvent(hp, hp.getClan(), relative, newRelation));
             }
         }
         

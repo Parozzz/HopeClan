@@ -100,6 +100,11 @@ public class HClan
         claims.add(claim);
     }
     
+    public boolean removeClaim(final Claim claim)
+    {
+        return claims.remove(claim);
+    }
+    
     public Set<Claim> claimList()
     {
         return claims;
