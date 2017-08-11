@@ -42,8 +42,26 @@ public class HPlayer
         return op.getPlayer();
     }
     
-    private HClan clan;
-    public void setClan(final HClan clan)
+    private volatile String chat;
+    public synchronized void updateChat()
+    {
+        if(clan==null)
+        {
+            chat=op.getName();
+        }
+        else
+        {
+            chat=new StringBuilder().append(clan.getTag()).append(" ").append(clan.getRank(this).getColor()).append(op.getName()).toString();
+        }
+    }
+    
+    public String getChat()
+    {
+        return chat;
+    }
+    
+    private volatile HClan clan;
+    public synchronized void setClan(final HClan clan)
     {
         this.clan=clan;
     }
@@ -65,7 +83,7 @@ public class HPlayer
     }
     
     
-    public void sendMessage(final String message)
+    public void sendMessage(final String... message)
     {
         if(op.isOnline())
         {

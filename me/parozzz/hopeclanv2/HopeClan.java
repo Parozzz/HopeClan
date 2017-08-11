@@ -12,6 +12,17 @@ import java.io.UnsupportedEncodingException;
 import java.util.stream.Stream;
 import me.parozzz.hopeclanv2.Clans.Claim.ClaimHandler;
 import me.parozzz.hopeclanv2.Clans.ClanHandler;
+import me.parozzz.hopeclanv2.Commands.MainCommand;
+import me.parozzz.hopeclanv2.Commands.PlayerCommand.ChangeRankCommand;
+import me.parozzz.hopeclanv2.Commands.PlayerCommand.ChangeRelationCommand;
+import me.parozzz.hopeclanv2.Commands.PlayerCommand.ClaimCommand;
+import me.parozzz.hopeclanv2.Commands.PlayerCommand.CreateCommand;
+import me.parozzz.hopeclanv2.Commands.PlayerCommand.DeleteCommand;
+import me.parozzz.hopeclanv2.Commands.PlayerCommand.InfoCommand;
+import me.parozzz.hopeclanv2.Commands.PlayerCommand.KickCommand;
+import me.parozzz.hopeclanv2.Commands.PlayerCommand.PlayerCommand;
+import me.parozzz.hopeclanv2.Commands.PlayerCommand.QuitCommand;
+import me.parozzz.hopeclanv2.Commands.PlayerCommand.UnclaimCommand;
 import me.parozzz.hopeclanv2.Players.PlayerHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -55,6 +66,10 @@ public class HopeClan extends JavaPlugin
         ClaimHandler claimHandler=new ClaimHandler();
         
         registerListeners(playerHandler, clanHandler, claimHandler);
+        
+        MainCommand command=new MainCommand();
+        addPlayerCommands(command);
+        this.getCommand("clan").setExecutor(command);
     }
     
     private void registerListeners(final Listener... listeners)
@@ -67,6 +82,19 @@ public class HopeClan extends JavaPlugin
         Messages.init(c);
         ExpManager.init(c);
         ClanEnumManager.init(c);
+    }
+    
+    private void addPlayerCommands(final MainCommand main)
+    {
+        main.addPlayerCommand(new ChangeRankCommand());
+        main.addPlayerCommand(new ChangeRelationCommand());
+        main.addPlayerCommand(new ClaimCommand());
+        main.addPlayerCommand(new CreateCommand());
+        main.addPlayerCommand(new DeleteCommand());
+        main.addPlayerCommand(new InfoCommand());
+        main.addPlayerCommand(new KickCommand());
+        main.addPlayerCommand(new QuitCommand());
+        main.addPlayerCommand(new UnclaimCommand());
     }
     
     private void unregisterAll()

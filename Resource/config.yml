@@ -1,5 +1,13 @@
 Prefix: "&7[&4Clan&7]"
+clanChatFormat: '&b[%clan%] %player% » %message%'
 
+clanInfoMessages: #You can use only one placeholder per line
+  - "&7Name: %clan%"
+  - "&7Tag: %tag%"
+  - "&7Owner: %owner%"
+  - "&7Members: %members%"
+  - "&7Exp: %exp"
+  
 Message:
   hitAlly: '&2&lAlly hit'
   interactionNotAllowed: '&7&lNot Allowed'
@@ -19,7 +27,7 @@ Message:
   unclaimAll: '&7You have unclaimed all your chunks'
   
   rankChange: '&7Your rank has been changed to %rank%'  
-    
+  
 Ranks:
   owner:
     color: aqua
@@ -55,6 +63,7 @@ Commands:
     relation: 'relation'
     claim: 'claim'
     unclaim: 'unclaim'
+    info: 'info'
   ClaimCosts: 
     #This will be costs of chunk claiming. 
     #The numbers refer to the next to be claimed. If a clan have 0 claims, the cost to refer is 1. 1 claim to refer 2 etc...
@@ -70,7 +79,7 @@ Commands:
     9: 85000.0
     10: 125000.0
   #NotSure
-  #UnclaimExpReturn: 25 #This is a percentage. How much xp players will get back from unclaiming chunks
+  UnclaimExpReturn: 25 #This is a percentage. How much xp players will get back from unclaiming chunks
   UnclaimSubcommand:
     one: 'one'
     all: 'all'
@@ -122,6 +131,8 @@ Commands:
     unclaimOthers: '&4This chunk is not your'
     unclaimNoClaims: '&4Your clan does not have any claim'
     unclaimAllConfirm: '&7>> &4Click here to unclaim all chunks &7<<' #This will show a clickable message
+    
+    infoHelp: '&7/clan info *clan*'
     
 Experience:
   enemyKill: 2.5 #When a clan member kill a member of an enemy clan

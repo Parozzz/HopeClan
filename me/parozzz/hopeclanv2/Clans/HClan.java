@@ -66,6 +66,16 @@ public class HClan
         return hp.equals(owner) ? false : members.remove(hp)!=null;
     }
     
+    public Set<HPlayer> getMembers()
+    {
+        return members.keySet();
+    }
+    
+    public void sendMessage(final String... messages)
+    {
+        members.keySet().stream().filter(HPlayer::isOnline).forEach(hp -> hp.sendMessage(messages));
+    }
+    
     public boolean setRank(final HPlayer hp, final Rank rank)
     {
         return hp.equals(owner) ? false : members.replace(hp, rank)!=null;

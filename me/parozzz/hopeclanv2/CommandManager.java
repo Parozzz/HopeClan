@@ -22,7 +22,7 @@ public class CommandManager
     
     public static enum CommandType
     {
-        CREATE, DELETE, QUIT, KICK, RANK, RELATION, CLAIM, UNCLAIM;
+        CREATE, DELETE, QUIT, KICK, RANK, RELATION, CLAIM, UNCLAIM, INFO;
         
         public String getName()
         {
@@ -42,7 +42,8 @@ public class CommandManager
         RANKHELP, RANKCHANGE, RANKWRONG, RANKSAME,
         RELATIONHELP, RELATIONALREADY, RELATIONSAME, RELATIONWRONG,
         CLAIMHELP, CLAIMALREADY, CLAIMMAXREACHED,
-        UNCLAIMHELP, UNCLAIMEMPTY, UNCLAIMOTHERS, UNCLAIMNOCLAIMS, UNCLAIMALLCONFIRM;
+        UNCLAIMHELP, UNCLAIMEMPTY, UNCLAIMOTHERS, UNCLAIMNOCLAIMS, UNCLAIMALLCONFIRM,
+        INFOHELP;
         
         public void chat(final HPlayer hp)
         {
@@ -72,6 +73,8 @@ public class CommandManager
     private final static EnumMap<CommandMessageEnum, String> messages=new EnumMap(CommandMessageEnum.class);
     
     private final static Map<String, UnclaimSubCommandEnum> unclaimSubCommands=new HashMap<>();
+    private static double unclaimExpBackPercentage;
+            
     private final static Map<Integer, Double> claimCosts=new HashMap<>();
     protected static void init(final FileConfiguration c)
     {
@@ -85,6 +88,7 @@ public class CommandManager
     
         ConfigurationSection usPath=c.getConfigurationSection("Commands.UnclaimSubcommand");
         unclaimSubCommands.putAll(usPath.getKeys(false).stream().collect(Collectors.toMap(str -> usPath.getString(str).toLowerCase() , str -> UnclaimSubCommandEnum.valueOf(str.toUpperCase()))));
+        unclaimExpBackPercentage=c.getDouble("Commands.UnclaimExpReturn");
         
         ConfigurationSection ccPath=c.getConfigurationSection("Commands.ClaimCosts");
         claimCosts.putAll(ccPath.getKeys(false).stream().collect(Collectors.toMap(str -> Integer.valueOf(str), str -> ccPath.getDouble(str))));
@@ -93,6 +97,11 @@ public class CommandManager
     public static Double getCost(final int nextClaim)
     {
         return claimCosts.get(nextClaim);
+    }
+    
+    public static double getUnclaimPercentage()
+    {
+        return unclaimExpBackPercentage;
     }
     
     public static enum UnclaimSubCommandEnum

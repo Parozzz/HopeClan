@@ -7,6 +7,7 @@ package me.parozzz.hopeclanv2.Events;
 
 import java.util.Set;
 import me.parozzz.hopeclanv2.Clans.Claim.Claim;
+import me.parozzz.hopeclanv2.Clans.HClan;
 import me.parozzz.hopeclanv2.Players.HPlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -34,6 +35,11 @@ public class UnclaimChunkEvent extends Event implements Cancellable
     public Set<Claim> getClaims()
     {
         return claims;
+    }
+    
+    public HClan getClan()
+    {
+        return hp.getClan();
     }
     
     private static final HandlerList handlers = new HandlerList();

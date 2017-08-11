@@ -7,6 +7,8 @@ package me.parozzz.hopeclanv2.Clans.Claim;
 
 import java.util.Optional;
 import java.util.function.BiConsumer;
+import java.util.stream.IntStream;
+import me.parozzz.hopeclanv2.CommandManager;
 import me.parozzz.hopeclanv2.Events.ClaimChunkEvent;
 import me.parozzz.hopeclanv2.Events.ClanExpChangeEvent;
 import me.parozzz.hopeclanv2.Events.ClanExpChangeEvent.ExpChangeCause;
@@ -82,14 +84,19 @@ public class ClaimHandler implements Listener
     @EventHandler(ignoreCancelled=true, priority=EventPriority.HIGHEST)
     private void onChunksUnclaim(final UnclaimChunkEvent e)
     {
+        double cost;
         if(e.getClaims().size()==1)
         {
             MessageEnum.UNCLAIMCHUNK.chat(e.getPlayer());
+            cost=CommandManager.getCost(e.getClan().claimList().size());
         }
         else
         {
             MessageEnum.UNCLAIMALL.chat(e.getPlayer());
+            cost=IntStream.of(e.getClaims().size()).mapToDouble(CommandManager::getCost).sum();
         }
+        
+        Utils.callEvent(new ClanExpChangeEvent(e.getPlayer(), e.getClan(), cost, ExpChangeCause.UNCLAIM));
         e.getClaims().forEach(ClaimManager::remove);
     }
     

@@ -16,6 +16,7 @@ import me.parozzz.hopeclanv2.Events.PlayerHitClanMemberEvent;
 import me.parozzz.hopeclanv2.Events.PlayerInteractInClaimEvent;
 import me.parozzz.hopeclanv2.Events.PlayerStepIntoClaimEvent;
 import me.parozzz.hopeclanv2.ExpManager;
+import me.parozzz.hopeclanv2.Messages;
 import me.parozzz.hopeclanv2.Utils;
 import me.parozzz.hopeclanv2.Utils.CreatureType;
 import org.bukkit.Material;
@@ -30,6 +31,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -64,6 +66,20 @@ public class PlayerHandler implements Listener
     private void onPlayerKick(final PlayerKickEvent e)
     {
         PlayerManager.setOffline(e.getPlayer());
+    }
+    
+    @EventHandler(ignoreCancelled=true)
+    private void onPlayerChat(final AsyncPlayerChatEvent e)
+    {
+        HPlayer hp=PlayerManager.getOnline(e.getPlayer());
+        if(e.getMessage().startsWith("c") && hp.getClan()==null)
+        {
+            Messages.getClanChat(hp, e.getMessage().substring(1));
+        }
+        else
+        {
+            e.setFormat(new StringBuilder().append(hp.getChat()).append(e.getMessage()).toString());
+        }
     }
     
     @EventHandler(ignoreCancelled=true, priority=EventPriority.MONITOR)
